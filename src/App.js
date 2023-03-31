@@ -1,13 +1,13 @@
-import './App.css';
-import List from './components/List';
-import ListForm from './components/ListForm';
+import "./App.module.css";
+import List from "./components/List";
 
 function App() {
   return (
-   <div>
-     <List/>
-   </div>
-  
+    <div>
+      <main>
+        <List />
+      </main>
+    </div>
   );
 }
 

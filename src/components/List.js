@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ListForm from "./ListForm";
 import { db } from "../firebase";
 import { addDoc, collection, query, onSnapshot, deleteDoc, doc } from "firebase/firestore";
-import { async } from "@firebase/util";
+import styles from "../App.module.css";
 
 const List = () => {
   const [lists, setLists] = useState([]);
@@ -15,7 +15,7 @@ const List = () => {
     console.log("nueva tarea agregada");
   };
 
-  const deleteList = async id => {
+  const deleteList = async (id) => {
     await deleteDoc(doc(db, "lists", id));
     console.log("lista eliminada");
   } 
@@ -45,10 +45,12 @@ const List = () => {
   return (
     <div>
       <ListForm addList={addList} />
-      <div>
+      <div className={styles.divConteinerLists}>
         {lists.map((list) => (
-          <div key={list.id}>
+          <div className={styles.divLists} key={list.id}>
+            
             <p>{list.listObject.content}</p>
+            
             <button onClick={() => deleteList(list.id)}>Borrar</button>
           </div>
         ))}

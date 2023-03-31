@@ -1,0 +1,35 @@
+body{
+    background-color: #F5F5F5;
+}
+.btnAddList{
+    background-color: #8C30F5;
+    border-radius: 8px;
+    width: 161px;
+    height: 29px;
+    border: none;
+    color: #ffff;
+    font-weight: bold;
+}
+.divLists{
+    background-color:#D9D9D9; 
+    border-radius: 9px;
+    margin: 2px;
+    padding: 15px;
+}
+
+.divConteinerLists{
+    display: grid;
+    grid-template-columns: 200px 200px 200px;
+    margin-top: 50px;
+    justify-content: center;
+}
+
+.title{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+p{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
