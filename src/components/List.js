@@ -1,45 +1,60 @@
-import React, {useEffect} from 'react';
-import ListForm from './ListForm';
+import React, { useEffect, useState } from "react";
+import ListForm from "./ListForm";
 import { db } from "../firebase";
-import { addDoc, collection, query, onSnapshot  } from 'firebase/firestore';
+import { addDoc, collection, query, onSnapshot, deleteDoc, doc } from "firebase/firestore";
+import { async } from "@firebase/util";
 
 const List = () => {
-    // listObject son los datos que quiero guardar, los datos del objeto "lista"
-    const addList = async (listObject) => {
-        await addDoc(collection(db,"lists"),{
-            listObject
-        });
-        console.log('nueva tarea agregada');
-    };
+  const [lists, setLists] = useState([]);
 
-    const onGetList = (callback) => {
+  // listObject son los datos que quiero guardar, los datos del objeto "lista"
+  const addList = async (listObject) => {
+    await addDoc(collection(db, "lists"), {
+      listObject,
+    });
+    console.log("nueva tarea agregada");
+  };
+
+  const deleteList = async id => {
+    await deleteDoc(doc(db, "lists", id));
+    console.log("lista eliminada");
+  } 
+
+  const onGetList = (callback) => {
     const queryList = query(collection(db, "lists"));
     onSnapshot(queryList, callback);
-    };
+  };
 
-    const getList = async () => {
-        onGetList((querySnapshot) => {
-          
-          querySnapshot.forEach((doc) => {
-              console.log(doc.data());
-            // console.log(doc.id);
-          
-        
-         
-          });
-         
-        });
-      };
+  const getList = async () => {
+    onGetList((querySnapshot) => {
+      const docs = [];
+      querySnapshot.forEach((doc) => {
+        console.log(doc.data());
+        // console.log(doc.id);
 
-      useEffect(() => {
-        getList();
-      }, []);
+        docs.push({ ...doc.data(), id: doc.id });
+      });
+      setLists(docs);
+    });
+  };
 
-    return <div>
-        <ListForm addList={addList}/>
-        <h1>List</h1>
-    </div> 
-   
-}
+  useEffect(() => {
+    getList();
+  }, []);
+
+  return (
+    <div>
+      <ListForm addList={addList} />
+      <div>
+        {lists.map((list) => (
+          <div key={list.id}>
+            <p>{list.listObject.content}</p>
+            <button onClick={() => deleteList(list.id)}>Borrar</button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
 
 export default List;
